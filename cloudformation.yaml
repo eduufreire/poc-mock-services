@@ -1,0 +1,30 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Configuração dos recursos necessários para API de Mocks
+
+Resources:
+
+  Dynamo:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: MockServices
+      KeySchema: 
+        - AttributeName: service
+          KeyType: HASH
+        - AttributeName: statusCode
+          KeyType: RANGE
+      AttributeDefinitions:
+        - AttributeName: service
+          AttributeType: S
+        - AttributeName: statusCode
+          AttributeType: N
+        - AttributeName: endpoint
+          AttributeType: S
+      GlobalSecondaryIndexes:
+        - IndexName: endpoint-index
+          KeySchema:
+            - AttributeName: endpoint
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+      BillingMode : PAY_PER_REQUEST
+
