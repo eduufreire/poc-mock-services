@@ -1,18 +1,27 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/eduufreire/poc-mock-services/internal/aws"
 	"github.com/eduufreire/poc-mock-services/internal/aws/dynamo"
+	"github.com/eduufreire/poc-mock-services/internal/cache"
 	"github.com/eduufreire/poc-mock-services/internal/mocks"
+	"github.com/joho/godotenv"
 )
 
 func main() {
 
-	clientDynamo := dynamo.NewDynamoService(aws.Session())
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	mockService := mocks.NewMockService(clientDynamo)
+	clientDynamo := dynamo.NewDynamoService(aws.Session())
+	clientCache := cache.NewClientRedis()
+
+	mockService := mocks.NewMockService(clientDynamo, clientCache)
 	mockHandler := mocks.NewMockHandler(mockService)
 
 	mux := http.NewServeMux()
