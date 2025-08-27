@@ -2,10 +2,12 @@ package mocks
 
 import (
 	"github.com/eduufreire/poc-mock-services/internal/aws/dynamo"
+	"github.com/eduufreire/poc-mock-services/internal/cache"
 )
 
 type mockService struct {
 	client dynamo.DynamoService
+	cache  cache.CacheService
 }
 
 type mockHandler struct {

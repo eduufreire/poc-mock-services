@@ -19,7 +19,7 @@ func (m *mockHandler) Post(w http.ResponseWriter, r *http.Request) {
 	body := Request{}
 	json.NewDecoder(r.Body).Decode(&body)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	m.service.SaveMock(ctx, body)
@@ -48,7 +48,7 @@ func (m *mockHandler) GetByParams(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	statusCode, err := strconv.Atoi(queryParams.Get("statusCode"))
